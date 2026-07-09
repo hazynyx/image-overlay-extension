@@ -88,28 +88,9 @@
       saveState();
     });
 
-    // Size
-    const szLabel = el("span", "io-toolbar-label", "Sz");
-    const szSlider = document.createElement("input");
-    szSlider.type = "range";
-    szSlider.id = "img-overlay-ext-sz-slider";
-    szSlider.className = "io-slider";
-    szSlider.min = "30";
-    szSlider.max = "1200";
-    szSlider.value = String(state.width);
-    szSlider.addEventListener("input", (e) => {
-      const newW = parseInt(e.target.value);
-      const ratio = state.height / state.width;
-      state.width = newW;
-      state.height = Math.round(newW * ratio);
-      applyPosition();
-      saveState();
-    });
-
     // Dividers
     const div1 = el("div", "io-divider");
     const div2 = el("div", "io-divider");
-    const div3 = el("div", "io-divider");
 
     // Pin button
     const pinBtn = document.createElement("button");
@@ -158,7 +139,7 @@
       removeOverlay();
     });
 
-    tb.append(opLabel, opSlider, div1, szLabel, szSlider, div2, pinBtn, lockBtn, div3, closeBtn);
+    tb.append(opLabel, opSlider, div1, pinBtn, lockBtn, div2, closeBtn);
     return tb;
   }
 
