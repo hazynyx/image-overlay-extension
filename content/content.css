@@ -1,0 +1,241 @@
+/* ── Image Overlay – Content Script Styles ── */
+
+/* All selectors are prefixed to avoid collisions with page styles */
+
+#img-overlay-ext-container {
+  position: fixed !important;
+  z-index: 2147483646 !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  user-select: none !important;
+  touch-action: none !important;
+  /* initial state set via JS */
+}
+
+#img-overlay-ext-container * {
+  box-sizing: border-box !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+}
+
+/* ── Image ── */
+#img-overlay-ext-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  border-radius: 4px !important;
+}
+
+/* ── Toolbar ── */
+#img-overlay-ext-toolbar {
+  position: absolute !important;
+  bottom: -44px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: rgba(15, 15, 20, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+#img-overlay-ext-container:hover #img-overlay-ext-toolbar,
+#img-overlay-ext-toolbar.io-pinned {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ── Toolbar Labels ── */
+.io-toolbar-label {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin-right: 2px !important;
+}
+
+/* ── Range Sliders ── */
+.io-slider {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 70px !important;
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 2px !important;
+  outline: none !important;
+  cursor: pointer !important;
+}
+
+.io-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: #7c6aef !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+  cursor: pointer !important;
+}
+
+.io-slider::-moz-range-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: #7c6aef !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+  cursor: pointer !important;
+}
+
+/* ── Divider ── */
+.io-divider {
+  width: 1px !important;
+  height: 18px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  margin: 0 2px !important;
+}
+
+/* ── Close Button ── */
+#img-overlay-ext-close {
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  cursor: pointer !important;
+  padding: 3px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.15s ease !important;
+  line-height: 1 !important;
+}
+
+#img-overlay-ext-close:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* ── Pin Button ── */
+#img-overlay-ext-pin {
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  cursor: pointer !important;
+  padding: 3px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.15s ease !important;
+  line-height: 1 !important;
+}
+
+#img-overlay-ext-pin:hover {
+  color: #7c6aef !important;
+  background: rgba(124, 106, 239, 0.15) !important;
+}
+
+#img-overlay-ext-pin.io-active {
+  color: #7c6aef !important;
+}
+
+/* ── Resize Handles ── */
+.io-resize-handle {
+  position: absolute !important;
+  background: transparent !important;
+  z-index: 10 !important;
+}
+
+.io-resize-handle-se {
+  right: -5px !important;
+  bottom: -5px !important;
+  width: 16px !important;
+  height: 16px !important;
+  cursor: nwse-resize !important;
+}
+
+.io-resize-handle-sw {
+  left: -5px !important;
+  bottom: -5px !important;
+  width: 16px !important;
+  height: 16px !important;
+  cursor: nesw-resize !important;
+}
+
+.io-resize-handle-ne {
+  right: -5px !important;
+  top: -5px !important;
+  width: 16px !important;
+  height: 16px !important;
+  cursor: nesw-resize !important;
+}
+
+.io-resize-handle-nw {
+  left: -5px !important;
+  top: -5px !important;
+  width: 16px !important;
+  height: 16px !important;
+  cursor: nwse-resize !important;
+}
+
+/* Show resize corners on hover */
+#img-overlay-ext-container:hover .io-resize-handle::after {
+  content: '' !important;
+  position: absolute !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 2px !important;
+  background: #7c6aef !important;
+  border: 1.5px solid #fff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.io-resize-handle-se::after { right: 0 !important; bottom: 0 !important; }
+.io-resize-handle-sw::after { left: 0 !important; bottom: 0 !important; }
+.io-resize-handle-ne::after { right: 0 !important; top: 0 !important; }
+.io-resize-handle-nw::after { left: 0 !important; top: 0 !important; }
+
+/* ── Outline on hover ── */
+#img-overlay-ext-container:hover {
+  outline: 2px solid rgba(124, 106, 239, 0.5) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px !important;
+}
+
+/* ── Lock button ── */
+#img-overlay-ext-lock {
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  cursor: pointer !important;
+  padding: 3px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.15s ease !important;
+  line-height: 1 !important;
+}
+
+#img-overlay-ext-lock:hover {
+  color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.15) !important;
+}
+
+#img-overlay-ext-lock.io-active {
+  color: #f59e0b !important;
+}
