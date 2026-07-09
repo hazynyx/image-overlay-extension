@@ -14,17 +14,6 @@
   /* initial state set via JS */
 }
 
-/* Invisible bridge so cursor can travel from image to toolbar */
-#img-overlay-ext-container::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: -50px !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 50px !important;
-  pointer-events: auto !important;
-}
-
 #img-overlay-ext-container * {
   box-sizing: border-box !important;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
@@ -36,7 +25,8 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  pointer-events: none !important;
+  pointer-events: auto !important;
+  cursor: grab !important;
   border-radius: 4px !important;
 }
 
@@ -62,7 +52,7 @@
   white-space: nowrap !important;
 }
 
-#img-overlay-ext-container:hover #img-overlay-ext-toolbar,
+#img-overlay-ext-toolbar.io-visible,
 #img-overlay-ext-toolbar.io-pinned {
   opacity: 1 !important;
   pointer-events: auto !important;

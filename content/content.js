@@ -63,8 +63,27 @@
     const toolbar = createToolbar();
     container.appendChild(toolbar);
 
-    // Drag
-    container.addEventListener("mousedown", onDragStart);
+    // Drag — only from the image itself
+    img.addEventListener("mousedown", onDragStart);
+
+    // ── Toolbar visibility (JS-based with delay) ──
+    let hideTimeout = null;
+
+    function showToolbar() {
+      clearTimeout(hideTimeout);
+      toolbar.classList.add("io-visible");
+    }
+
+    function hideToolbar() {
+      hideTimeout = setTimeout(() => {
+        toolbar.classList.remove("io-visible");
+      }, 300);
+    }
+
+    container.addEventListener("mouseenter", showToolbar);
+    container.addEventListener("mouseleave", hideToolbar);
+    toolbar.addEventListener("mouseenter", showToolbar);
+    toolbar.addEventListener("mouseleave", hideToolbar);
 
     document.documentElement.appendChild(container);
   }
@@ -146,8 +165,6 @@
   // ── Drag ──
   function onDragStart(e) {
     if (state.locked) return;
-    // Don't drag if clicking a control
-    if (e.target.closest("button, input, .io-resize-handle, #img-overlay-ext-toolbar")) return;
 
     e.preventDefault();
     const startX = e.clientX;
@@ -243,7 +260,6 @@
       width: ${state.width}px !important;
       height: ${state.height}px !important;
       opacity: ${state.opacity} !important;
-      cursor: ${state.locked ? "default" : "grab"} !important;
     `;
   }
 
