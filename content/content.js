@@ -147,7 +147,7 @@
   function onDragStart(e) {
     if (state.locked) return;
     // Don't drag if clicking a control
-    if (e.target.closest("button, input, .io-resize-handle")) return;
+    if (e.target.closest("button, input, .io-resize-handle, #img-overlay-ext-toolbar")) return;
 
     e.preventDefault();
     const startX = e.clientX;
