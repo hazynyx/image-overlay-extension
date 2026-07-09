@@ -26,12 +26,23 @@
   });
 
   // ── Restore overlay if image exists in storage ──
-  chrome.storage.local.get(["overlayImage", "overlayState"], (data) => {
-    if (data.overlayImage) {
-      if (data.overlayState) {
-        Object.assign(state, data.overlayState);
-      }
+  chrome.storage.local.get(["overlayImage", "overlayState", "overlayMode", "overlayTabId"], (data) => {
+    if (!data.overlayImage) return;
+
+    const mode = data.overlayMode || "current";
+
+    if (mode === "all") {
+      // Show on all tabs
+      if (data.overlayState) Object.assign(state, data.overlayState);
       createOverlay(data.overlayImage);
+    } else {
+      // Only show on the specific tab — ask background for our tab ID
+      chrome.runtime.sendMessage({ action: "getMyTabId" }, (response) => {
+        if (response && response.tabId === data.overlayTabId) {
+          if (data.overlayState) Object.assign(state, data.overlayState);
+          createOverlay(data.overlayImage);
+        }
+      });
     }
   });
 

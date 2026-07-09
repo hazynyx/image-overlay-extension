@@ -7,16 +7,18 @@ const removeBtn = document.getElementById("removeBtn");
 const applyBtn = document.getElementById("applyBtn");
 const activeOverlay = document.getElementById("activeOverlay");
 const removeOverlayBtn = document.getElementById("removeOverlayBtn");
+const allTabsToggle = document.getElementById("allTabsToggle");
 
 let selectedDataUrl = null;
 
 // ── Check if overlay is already active ──
-chrome.storage.local.get("overlayImage", (data) => {
+chrome.storage.local.get(["overlayImage", "overlayMode"], (data) => {
   if (data.overlayImage) {
     selectedDataUrl = data.overlayImage;
     showPreview(data.overlayImage, "Current overlay");
     applyBtn.classList.add("hidden");
     activeOverlay.classList.remove("hidden");
+    allTabsToggle.checked = data.overlayMode === "all";
   }
 });
 
@@ -86,8 +88,10 @@ applyBtn.addEventListener("click", () => {
   applyBtn.disabled = true;
   applyBtn.textContent = "Applying…";
 
+  const mode = allTabsToggle.checked ? "all" : "current";
+
   chrome.runtime.sendMessage(
-    { action: "setOverlayImage", dataUrl: selectedDataUrl },
+    { action: "setOverlayImage", dataUrl: selectedDataUrl, mode: mode },
     () => {
       applyBtn.disabled = false;
       applyBtn.innerHTML = `
@@ -101,6 +105,12 @@ applyBtn.addEventListener("click", () => {
       activeOverlay.classList.remove("hidden");
     }
   );
+});
+
+// ── Toggle All Tabs ──
+allTabsToggle.addEventListener("change", () => {
+  const mode = allTabsToggle.checked ? "all" : "current";
+  chrome.runtime.sendMessage({ action: "setOverlayMode", mode: mode });
 });
 
 // ── Remove Overlay ──
